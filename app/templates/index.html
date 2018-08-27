@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#requestForm">New Request</button>
+    </div>
+
+    <br />
+
+    <div class="container border">
+        <ul class="nav nav-tabs" role="tablist">
+            {% for client in clients %}
+                <li class="nav-item">
+                    <a class="nav-link" href="#{{ client.clientName.replace(" ", "") }}Panel" role="tab" data-toggle="tab">{{ client.clientName }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <div class="tab-content">
+            {% for client in clients %}
+                <div role="tabpanel" class="tab-pane fade" id="{{ client.clientName.replace(" ", "") }}Panel">{{ client.clientName }}</div>
+            {% endfor %}
+
+            
+        </div>
+    </div>
+    
+    
+    {% block formModal %}{% endblock %}
+
+
+{% endblock %}
