@@ -11,7 +11,9 @@ function featureRequest(data) {
 function client(data) {
     this.id = ko.observable(data.id);
     this.name = ko.observable(data.name);
-    this.featureRequests = ko.observableArray(data.featureRequests);
+    this.featureRequests = ko.utils.arrayMap(data.featureRequests, function(item) {
+        return new featureRequest(item);
+    });
 }
 
 function featureRequestListVM() {
@@ -19,14 +21,14 @@ function featureRequestListVM() {
     self.clients = ko.observableArray();
     self.productAreasList = ko.observableArray([]);
     self.newFeatureRequest = ko.observable(new featureRequest());
-    self.selectedClient = kko.observable();
+    self.selectedClient = ko.observable();
 
-    $.getJSON('/api/getClientData', function(clients) {
-        var t = $.map(clients.tasks, function(item) {
-            return new Task(item);
-        });
-        self.clients(t);
-    });
+    // $.getJSON('/api/getAllClientData', function(clients) {
+    //     var t = $.map(clients, function(item) {
+    //         return new client(item);
+    //     });
+    //     self.clients(t);
+    // });
 
     self.save = function() {
         return $.ajax({
@@ -35,7 +37,6 @@ function featureRequestListVM() {
             type: 'POST',
             data: JSON.stringify(self.NewFeatureRequest),
             success: function(data) {
-                console.log("Pushing to tasks array");
                 self.selectedClient.featureRequests.push(new featureRequest(self.newFeatureRequest));
                 return;
             },
