@@ -1,8 +1,8 @@
 <div class="modal fade" id="requestForm" tabindex="-1" role="dialog" aria-labelledby="requestFormLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="requestFormLabel">Feature Request</h5>
+        <div class="modal-header bg-primary">
+            <h5 class="modal-title text-light" id="requestFormLabel">Feature Request</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
@@ -16,6 +16,31 @@
                 <div class="form-group">
                     <label for="requestDescription">Description</label>
                     <textarea class="form-control" id="requestDescription" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="clientSelect">Select Client</label>
+                    <select class="form-control" id="clientSelect">
+                        {% for client in clients %}
+                            <option>{{ client.clientName }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="priority">Priority</label>
+                    <input type="number" class="form-control" id="priority" min="1">
+                </div>
+                <div class="form-group">
+                    <label for="targetDate" class="form-label">Date</label>
+                    <input class="form-control" type="date" id="targetDate">
+                </div>
+                <div class="form-group">
+                    <label for="areaSelect">Select Client</label>
+                    <select class="form-control" id="areaSelect">
+                        <option>Policies</option>
+                        <option>Billing</option>
+                        <option>Claims</option>
+                        <option>Reports</option>
+                    </select>
                 </div>
             </form>
         </div>
