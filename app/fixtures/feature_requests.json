@@ -1,0 +1,13 @@
+[
+    {
+      "table": "feature_request",
+      "records": [
+        { "id": 1, "title": "Add new fields", "description": "add new fields to claims reports", "client_id": 1, "client_priority": 1, "target_date": "10/10/2018", "product_area": "Claims" },
+        { "id": 2, "title": "Update Policy Forms", "description": "Update forms to reflect new policies", "client_id": 1, "client_priority": 2, "target_date": "10/11/2018", "product_area": "Policies" },
+        { "id": 3, "title": "Auto Billing", "description": "Implement auto billing feature", "client_id": 2, "client_priority": 1, "target_date": "10/12/2018", "product_area": "Billing" },
+        { "id": 4, "title": "Add New Reports", "description": "update reports", "client_id": 2, "client_priority": 2, "target_date": "10/13/2018", "product_area": "Reports" },
+        { "id": 5, "title": "Redesign Claims", "description": "overhaul claims UI", "client_id": 3, "client_priority": 1, "target_date": "10/14/2018", "product_area": "Claims" },
+        { "id": 6, "title": "New Billing Features", "description": "Implement new billing features", "client_id": 3, "client_priority": 2, "target_date": "10/15/2018", "product_area": "Billing" }
+      ]
+    }
+  ]

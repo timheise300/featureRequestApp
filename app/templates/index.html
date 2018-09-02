@@ -3,30 +3,73 @@
 {% block content %}
 
     <div class="container">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#requestForm">New Request</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-bind="click: initRequestForm">New Request</button>
     </div>
 
     <br />
 
-    <div class="container border">
+    <!-- ko if: clients().length > 0 -->
+    <div class="container border shadow-sm p-3 mb-5 bg-white rounded">
         <br />
-        <ul class="nav nav-tabs" role="tablist">
-            {% for client in clients %}
-                <li class="nav-item">
-                    <a class="nav-link" href="#{{ client.clientName.replace(" ", "") }}Panel" role="tab" data-toggle="tab">{{ client.clientName }}</a>
-                </li>
-            {% endfor %}
+        <ul class="nav nav-tabs" role="tablist" data-bind="foreach: clients()">
+            <li class="nav-item">
+                <a class="nav-item nav-link" data-bind="css:{active: $index() == 0}, attr: { href: '#tab' + $index(), text: name }, click: $parent.updateSelectedClient.bind($data)" role="tab" data-toggle="tab"><span data-bind="text: name"></span></a>
+            </li>
         </ul>
 
-        <div class="tab-content">
-            {% for client in clients %}
-                <div role="tabpanel" class="tab-pane fade" id="{{ client.clientName.replace(" ", "") }}Panel">{{ client.clientName }}</div>
-            {% endfor %}
-
-            
+        <div class="tab-content" data-bind="foreach: clients()">
+            <div role="tabpanel" class="tab-pane fade" data-bind="css:{active: $index() == 0, show: $index() == 0}, attr :{'id': 'tab' + $index()}">
+                <div class="jumbotron">
+                    <!-- ko if: feature_requests().length > 0 -->
+                    <div data-bind="foreach: feature_requests()">
+                        <div class="well bg-dark text-white rounded p-3">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <h4 data-bind="text: title"></h4>
+                                </div>
+                                <div class="col-sm">
+                                    <div class="font-weight-bold">Target Date </div><p data-bind="text: target_date"></p>
+                                </div>
+                                <div class="col-sm">
+                                    <div class="font-weight-bold">Product Area </div><p data-bind="text: product_area"></p>
+                                </div>
+                                <div class="col-sm">
+                                        <div class="btn-toolbar">
+                                            <div class="btn-group mr-2">
+                                                <a class="btn btn-info float-right" data-toggle="modal" data-bind="click: $root.initRequestForm.bind($root)">
+                                                Edit
+                                                </a>
+                                            </div>
+                                            <div class="btn-group">
+                                                <a class="btn btn-danger float-right">
+                                                Delete
+                                                </a>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col bg-light text-dark m-3 rounded">
+                                    <p data-bind="text: description"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+                    <!-- /ko -->
+                    <!-- ko ifnot: feature_requests().length > 0 -->
+                    <h2 class="text-center">No client requests found for <span data-bind="text: name"></span>!</h2>
+                    <!-- /ko -->
+                </div>
+            </div>
         </div>
     </div>
-    
+    <!-- /ko -->
+    <!-- ko ifnot: clients().length > 0 -->
+    <div class="jumbotron">
+        <h2 class="text-center">No client data found!</h2>
+    </div>
+    <!-- /ko -->
     
     {% block formModal %}{% endblock %}
 

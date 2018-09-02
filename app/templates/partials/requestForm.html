@@ -2,52 +2,59 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
         <div class="modal-header bg-primary">
-            <h5 class="modal-title text-light" id="requestFormLabel">Feature Request</h5>
+            <h5 class="modal-title text-light" id="requestFormLabel">
+                <!-- ko if: new_feature_request().id -->
+                <span>Edit Feature Request</span>
+                <!-- /ko -->
+                <!-- ko ifnot: new_feature_request().id -->
+                <span>Add Feature Request</span>
+                <!-- /ko -->
+            </h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <div class="modal-body">
-            <form>
-                <div class="form-group">
-                    <label for="requestTitle">Title</label>
-                    <input type="text" class="form-control" id="requestTitle">
+            <div class="modal-body">
+                <form id="newFeatureRequest" data-bind="submit: saveRequest, with: $data.new_feature_request">
+                    <input type="hidden" data-bind="value: id()" name="id" id="id">
+                    <div class="form-group" data-bind="css: { 'has-error': $root.errors().title }">
+                        <label class="control-label" for="title">Title</label>
+                        <input data-bind="value: title()" type="text" id="title" name="title" placeholder="Title" step="1" min="1" class="form-control" required>
+                        <span class="help-block" data-bind="text: $root.errors().title"></span>
+                    </div>
+                    <div class="form-group" data-bind="css: { 'has-error': $root.errors().description }">
+                        <label class="control-label" for="description">Description</label>
+                        <textarea data-bind="value: description()" name="description" class="form-control" rows="5" id="description" placeholder="Description"></textarea>
+                        <span class="help-block" data-bind="text: $root.errors().description"></span>
+                    </div>
+                    <div class="form-group" data-bind="css: { 'has-error': $root.errors().client }">
+                        <label for="clientSelect">Select Client</label>
+                        <select class="form-control" id="clientSelect" data-bind="options: $root.clients(), optionsValue: 'id', optionsText: 'name', value: $parent.new_feature_request().client_id" id="client_id" name="client_id"></select>
+                        <span class="help-block" data-bind="text: $root.errors().client"></span>
+                    </div>
+                    <div class="form-group" data-bind="css: { 'has-error': $root.errors().client_priority }">
+                        <label class="control-label" for="client_priority">client_priority</label>
+                        <input data-bind="value: client_priority(), attr: { max: $parent.form_priority_max }" type="number" id="client_priority" placeholder="1" class="form-control" name="client_priority" min="1" required>
+                        <span class="help-block" data-bind="text: $root.errors().client_priority"></span>
+                    </div>
+                    <div class="form-group" data-bind="css: { 'has-error': $root.errors().target_date }">
+                        <label class="control-label" for="target_date">Target date</label>
+                        <div class="input-group date">
+                            <input data-bind="value: target_date()" id="target_date" name="target_date" class="form-control" required>
+                        </div>
+                        <span class="help-block" data-bind="text: $root.errors().target_date"></span>
+                    </div>
+                    <div class="form-group" data-bind="css: { 'has-error': $root.errors().product_area }">
+                        <label for="areaSelect">Select Product Area</label>
+                        <select class="form-control" id="productAreaSelect" data-bind="options: $root.product_areas(), optionsValue: 'id', optionsText: 'title', value: $parent.new_feature_request().product_area()" id="product_area" name="product_area"></select>
+                        <span class="help-block" data-bind="text: $root.errors().product_area"></span>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="requestDescription">Description</label>
-                    <textarea class="form-control" id="requestDescription" rows="4"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="clientSelect">Select Client</label>
-                    <select class="form-control" id="clientSelect">
-                        {% for client in clients %}
-                            <option>{{ client.clientName }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="priority">Priority</label>
-                    <input type="number" class="form-control" id="priority" min="1">
-                </div>
-                <div class="form-group">
-                    <label for="targetDate" class="form-label">Date</label>
-                    <input class="form-control" type="date" id="targetDate">
-                </div>
-                <div class="form-group">
-                    <label for="areaSelect">Select Client</label>
-                    <select class="form-control" id="areaSelect">
-                        <option>Policies</option>
-                        <option>Billing</option>
-                        <option>Claims</option>
-                        <option>Reports</option>
-                    </select>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </div>
             </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Save</button>
-        </div>
         </div>
     </div>
 </div>
