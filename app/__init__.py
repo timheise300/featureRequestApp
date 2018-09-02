@@ -1,5 +1,6 @@
 import os
 import json
+import logging
 from flask import Flask
 from dotenv import load_dotenv
 from flask_migrate import Migrate
