@@ -19,13 +19,19 @@ db = SQLAlchemy(app)
 ma = Marshmallow(app)
 migrate = Migrate(app, db)
 
-from app import routes, api
+from app import routes, api, models
 
 models.db.drop_all()
 models.db.create_all()
-fixture_dir_path = os.path.join('app', 'fixtures')
-for fixture in os.listdir(fixture_dir_path):
-    fixture_path = os.path.join(fixture_dir_path, fixture)
+client_fixture_dir_path = os.path.join('app', 'fixtures/clients')
+for clientfixture in os.listdir(client_fixture_dir_path):
+    fixture_path = os.path.join(client_fixture_dir_path, clientfixture)
+    with open(fixture_path, 'r') as infile:
+        load_fixtures(models.db, json.loads(infile.read()))
+
+featurerequest_fixture_dir_path = os.path.join('app', 'fixtures/featurerequests')
+for featurerequestfixture in os.listdir(featurerequest_fixture_dir_path):
+    fixture_path = os.path.join(featurerequest_fixture_dir_path, featurerequestfixture)
     with open(fixture_path, 'r') as infile:
         load_fixtures(models.db, json.loads(infile.read()))
 
